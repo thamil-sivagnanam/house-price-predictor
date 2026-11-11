@@ -1,139 +1,146 @@
-# 🏠 House Price Prediction System (Machine Learning Project)
+# House Price Predictor
 
-## 📌 Overview
-This project is a machine learning-based web application that predicts house prices based on key property features. It demonstrates an end-to-end ML pipeline including data preprocessing, feature engineering, model training, evaluation, and deployment using Streamlit.
+A machine learning project that estimates residential sale prices using selected property features. The project includes exploratory data analysis, model evaluation, feature-importance analysis, and an interactive Streamlit application.
 
-The goal of this project is to build a reliable regression model that can estimate house prices with high accuracy and provide an interactive user interface for real-time predictions.
+**[Live Demo](https://house-price-predictor-22.streamlit.app/) · [GitHub Repository](https://github.com/thamil-sivagnanam/house-price-predictor)**
 
----
+## About the Project
 
-## 🎯 Problem Statement
-Real estate pricing is influenced by multiple factors such as location, size, quality, and construction year. The objective is to build a predictive model that can estimate house prices using supervised machine learning techniques.
+This project uses the Ames Housing dataset to explore how property characteristics relate to sale prices and to build models that estimate a home's sale price from its features.
 
----
+The work covers data exploration, preprocessing, model comparison, evaluation, and a Streamlit interface for predictions.
 
-## 📊 Dataset
-- Dataset: Ames Housing Dataset
-- Features include:
-  - Lot Area
-  - Year Built
-  - Overall Quality
-  - Living Area
-  - Basement Area
-  - Garage Capacity
-- Target Variable:
-  - SalePrice
+## Dataset
 
----
+- **Dataset:** Ames Housing
+- **Records:** 2,930
+- **Columns:** 82, including the target
+- **Target variable:** `SalePrice`
 
-## ⚙️ Tech Stack
+## Notebook Workflow
+
+The notebook uses an 80/20 train-test split with `random_state=42`. Numerical missing values are imputed using the median. Categorical missing values are imputed using the most frequent value, and categorical features are one-hot encoded.
+
+The workflow includes:
+
+1. Data exploration and inspection
+2. Missing-value analysis and preprocessing
+3. Exploratory data analysis
+4. Training and comparing regression models
+5. Model evaluation
+6. Feature-importance analysis
+7. Saving the final notebook model
+
+## Model Comparison
+
+Three regression models were compared on the notebook's full feature set:
+
+| Model | R² Score |
+|---|---:|
+| Linear Regression | 0.7365 |
+| Random Forest Regressor | 0.9110 |
+| Gradient Boosting Regressor | 0.9169 |
+
+Gradient Boosting achieved the highest R² score in this notebook experiment.
+
+### Gradient Boosting Results
+
+- **R² Score:** 0.9169
+- **Mean Absolute Error (MAE):** 15,243.60
+- **Root Mean Squared Error (RMSE):** 25,808.56
+
+These are test-set results from the notebook experiment. They should not be interpreted as verified performance metrics for the separate model currently loaded by the Streamlit application.
+
+### Feature Importance
+
+The notebook's Random Forest feature-importance analysis ranked Overall Quality as the most influential feature, followed by Living Area, Garage Cars, and Total Basement Area.
+
+## Streamlit Application
+
+The application provides an interactive form based on six selected property features:
+
+- Lot Area
+- Year Built
+- Overall Quality
+- Living Area
+- Basement Area
+- Garage Cars
+
+The app loads `models/model.pkl` and `models/features.pkl` to generate a predicted sale price.
+
+The repository also contains `models/final_model.pkl`, which the notebook saved after fitting the Gradient Boosting model. **The Streamlit app loads `models/model.pkl`, not `models/final_model.pkl`.** The notebook's Gradient Boosting metrics above therefore describe the notebook experiment, not confirmed app-model performance.
+
+![Application screenshot](assets/app.png)
+
+**[Try the Live Application](https://house-price-predictor-22.streamlit.app/)**
+
+## Technologies Used
+
 - Python
-- Pandas & NumPy
+- Pandas
+- NumPy
 - Scikit-learn
 - Streamlit
 - Joblib
+- Matplotlib
 
----
+## Run Locally
 
-## 🧠 Machine Learning Workflow
+Clone the repository:
 
-1. Data Cleaning & Preprocessing
-2. Feature Selection (high-impact features only)
-3. Handling missing values using median imputation
-4. Model training using Random Forest Regressor
-5. Model evaluation using:
-   - R² Score
-   - Mean Absolute Error (MAE)
-   - Root Mean Squared Error (RMSE)
-6. Model serialization using Joblib
-
----
-
-## 📈 Model Performance
-
-- R² Score: ~0.91
-- MAE: ~15,000
-- RMSE: ~26,000
-
-The model shows strong predictive performance and generalization capability on unseen data.
-
----
-
-## 🖥️ Web Application
-
-The project includes an interactive web interface built with Streamlit where users can input house features and get instant price predictions.
-
-### Features:
-- User-friendly UI
-- Real-time prediction
-- Clean input controls (sliders & numeric fields)
-  
-## 📷 Application Preview
-
-![App Screenshot](assets/app.png)
-
-## 🌐 Live Demo
-
-👉 Try the deployed app here: 
-https://house-price-predictor-22.streamlit.app/
-
----
-
-📁 Project Structure
-```
-house-price-predictor/
-│
-├── app/                 # Streamlit web app
-├── data/                # Dataset
-├── models/              # Trained model & features
-├── notebooks/           # EDA and experiments
-├── src/                 # Training pipeline
-├── requirements.txt
-└── README.md
-```
-## 🚀 How to Run Locally
-
-### 1. Clone the repository
 ```bash
 git clone https://github.com/thamil-sivagnanam/house-price-predictor.git
 cd house-price-predictor
 ```
-### 2. Install dependencies
-```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
-### 3. Run the app
-```
+
+Run the Streamlit application from the repository root:
+
+```bash
 streamlit run app/app.py
 ```
-💡 Key Learnings
 
-* End-to-end ML pipeline development
-* Feature selection improves model stability
-* Importance of preprocessing consistency
-* Deployment using Streamlit
-* Real-world regression problem handling
+The application expects these files to be present:
 
-⸻
+- `models/model.pkl`
+- `models/features.pkl`
 
-🔮 Future Improvements
+## Repository Structure
 
-* Hyperparameter tuning (XGBoost / LightGBM)
-* Feature importance visualization in UI
-* Model comparison dashboard
-* Cloud deployment (Streamlit Cloud / AWS)
+```text
+house-price-predictor/
+├── app/
+│   └── app.py
+├── assets/
+│   └── app.png
+├── models/
+│   ├── features.pkl
+│   ├── final_model.pkl
+│   └── model.pkl
+├── notebooks/
+│   └── eda.ipynb
+├── src/
+│   ├── evaluate.py
+│   ├── main.py
+│   ├── preprocess.py
+│   ├── train.py
+│   ├── train_save.py
+│   └── utils.py
+└── requirements.txt
+```
 
-⸻
+## Author
 
-👨‍💻 Author
+**Thamil Sivagnanam**  
+MSc Artificial Intelligence student at Brandenburg University of Technology (BTU Cottbus).
 
-* Name: Thamil
-* Field: AI & Machine Learning Student
-* Focus: Machine Learning, Data Science, and AI Systems
+[GitHub Profile](https://github.com/thamil-sivagnanam)
 
-⸻
+---
 
-⭐ If you like this project
-
-Give it a star on GitHub and feel free to explore improvements!
-
+This project was developed for learning purposes. Predictions are estimates based on the dataset and model, not professional property valuations.
