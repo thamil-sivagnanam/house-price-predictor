@@ -66,9 +66,9 @@ The application provides an interactive form based on six selected property feat
 - Basement Area
 - Garage Cars
 
-The app loads `models/model.pkl` and `models/features.pkl` to generate a predicted sale price.
+The app loads `models/model.pkl` and `models/features.pkl` to generate a predicted sale price. The uploaded saved model was inspected and identified as a scikit-learn pipeline containing a median `SimpleImputer` followed by a `RandomForestRegressor` with 400 estimators. Its six input features match the feature list used by the app: Lot Area, Year Built, Overall Qual, Gr Liv Area, Total Bsmt SF, and Garage Cars.
 
-The repository also contains `models/final_model.pkl`, which the notebook saved after fitting the Gradient Boosting model. **The Streamlit app loads `models/model.pkl`, not `models/final_model.pkl`.** The notebook's Gradient Boosting metrics above therefore describe the notebook experiment, not confirmed app-model performance.
+The repository also contains `models/final_model.pkl`, which the notebook saved after fitting the Gradient Boosting model. **The Streamlit app loads `models/model.pkl`, not `models/final_model.pkl`.** The notebook's Gradient Boosting metrics above therefore describe the notebook experiment, not the app's Random Forest model. The repository's current training script for the six-feature app model does not record a separate evaluation report, so no notebook score is attributed to the deployed app.
 
 ![Application screenshot](assets/app.png)
 
